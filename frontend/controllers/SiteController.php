@@ -26,6 +26,7 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
+                //only 选项指明 ACF 应当只 对 login， logout 和 signup 方法起作用
                 'only' => ['logout', 'signup'],
                 'rules' => [
                     [
@@ -36,10 +37,13 @@ class SiteController extends Controller
                     [
                         'actions' => ['logout'],
                         'allow' => true,
+                        //@ 是一个特殊标识， 代表"已认证用户"。
+                        //? 是另一个特殊的标识，代表"访客用户"
                         'roles' => ['@'],
                     ],
                 ],
             ],
+            //指定该规则用于匹配哪种请求方法（例如GET，POST）。 这里的匹配大小写不敏感
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -48,6 +52,8 @@ class SiteController extends Controller
             ],
         ];
     }
+
+
 
     /**
      * @inheritdoc
@@ -72,7 +78,21 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
+        //var_dump(Yii::$app->user->getId());exit;
+
         return $this->render('index');
+    }
+
+    public function actionCreate()
+    {
+        echo 'create';
+        exit;
+    }
+
+    public function actionDel()
+    {
+        echo 'del';
+        exit;
     }
 
     /**
