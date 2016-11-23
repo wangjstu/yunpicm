@@ -88,6 +88,10 @@ class Picorder extends \yii\db\ActiveRecord
         ];
     }
 
+    /**
+     * 摄影师拍摄记录
+     * @return \yii\db\ActiveQuery
+     */
     public function getPhotolists()
     {
         //第一个参数为要关联的子表模型类名，
@@ -96,6 +100,19 @@ class Picorder extends \yii\db\ActiveRecord
         return $this->hasMany(Photolist::className(), ['orderid'=>'id']);
     }
 
+    /**
+     * 修片师记录
+     * @return \yii\db\ActiveQuery
+     */
+    public function getRetouchlists()
+    {
+        return $this->hasMany(Retouchlist::className(), ['orderid'=>'id']);
+    }
+
+    /**
+     * 订单照片
+     * @return $this
+     */
     public function getPictures()
     {
         //Picture.id<-(Photolist.orderid <- Picorder.id).picid

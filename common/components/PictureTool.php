@@ -79,11 +79,18 @@ class PictureTool extends Component
         }
     }
 
-    public function getUploadFileQiNiuLink($fileSaveDirAndName)
+    /**
+     * 获取已经上传的照片
+     * @param $fileSaveDirAndName
+     * @param array $attribute 支持：缩略图(imageView2)
+     * @return string
+     * @throws Exception
+     */
+    public function getUploadFileQiNiuLink($fileSaveDirAndName, $attribute=array())
     {
         if (!empty($fileSaveDirAndName)) {
             $qiNiuTool = $this->getQiniuTool();
-            return $qiNiuTool->getAuthLink($fileSaveDirAndName);
+            return $qiNiuTool->getAuthLink($fileSaveDirAndName, $attribute);
         } else {
             throw new Exception('Save Upload File QINIU only support UploadedFile instance. '.__FILE__);
         }

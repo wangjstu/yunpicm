@@ -9,8 +9,8 @@
 
 namespace frontend\models;
 
-use yii\base\Model;
 use yii;
+use yii\base\Model;
 use common\models\Picorder;
 use common\models\Photolist;
 use common\models\Picture;
@@ -50,17 +50,14 @@ class Photographer extends Model
         $transaction = Yii::$app->db->beginTransaction();
         if (!$this->Picorder->save()) { //保存订单
             $transaction->rollBack();
-            var_dump('Picorder save failed');
             return false;
         }
         if (!$this->savePictures()) {
             $transaction->rollBack();
-            var_dump('Pictures save failed');
             return false;
         }
         if (!$this->savePhotolists()) {
             $transaction->rollBack();
-            var_dump('Photolists save failed');
             return false;
         }
         $transaction->commit();
@@ -84,7 +81,7 @@ class Photographer extends Model
     {
         foreach ($this->Photolists as $pid=>$photolist) {
             $photolist->orderid = $this->Picorder->id;
-            $photolist->picid = $this->picturesKeep[$pid];
+            if (isset($this->picturesKeep[$pid])) $photolist->picid = $this->picturesKeep[$pid];
             if (!$photolist->save(false)) {
                 return false;
             }

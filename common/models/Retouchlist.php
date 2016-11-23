@@ -23,6 +23,10 @@ use yii\db\ActiveRecord;
  */
 class Retouchlist extends \yii\db\ActiveRecord
 {
+
+    const RETOUCHLIST_XIUPIAN = 1;
+    const RETOUCHLIST_KANPIAN = 2;
+
     /**
      * @inheritdoc
      */
@@ -37,11 +41,21 @@ class Retouchlist extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['opttype', 'orderid', 'picid', 'orgpicid', 'opterid', 'created_at', 'updated_at', 'isvalid'], 'integer'],
-            [['orderid', 'picid', 'orgpicid', 'opterid', 'created_at', 'updated_at'], 'required'],
+            [['opttype', 'orderid', 'picid', 'orgpicid'], 'safe'],
+            [['opttype', 'orderid', 'picid', 'orgpicid', 'opterid'], 'integer'],
+            [['opterid'], 'required'],
             [['datasource', 'modifysource'], 'string', 'max' => 30],
+            ['opttype', 'default', 'value' => self::RETOUCHLIST_XIUPIAN],
             ['isvalid', 'default', 'value' => 1],
             [['datasource', 'modifysource'], 'default', 'value'=>'PHP'],
+            [['orderid'], 'exist',
+                'skipOnError' => true,
+                'targetClass' => Picorder::className(),
+                'targetAttribute' => ['orderid'=>'id']],
+            [['picid'], 'exist',
+                'skipOnError' => true,
+                'targetClass' => Picture::className(),
+                'targetAttribute' => ['picid'=>'id']]
         ];
     }
 
@@ -77,5 +91,17 @@ class Retouchlist extends \yii\db\ActiveRecord
             'datasource' => Yii::t('app', 'Datasource'),
             'modifysource' => Yii::t('app', 'Modifysource'),
         ];
+    }
+
+    public function getOrder()
+    {
+        //Picorder.id -> Photolist.orderid 关联建立一对一关系
+        return $this->hasOne(Picorder::className(), ['id'=>'orderid']);
+    }
+
+    public function getPicture()
+    {
+        //Picture.id -> Photolist.picid 关联建立一对一关系
+        return $this->hasOne(Picture::className(), ['id'=>'picid']);
     }
 }

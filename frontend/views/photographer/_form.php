@@ -24,10 +24,27 @@ use yii\widgets\ActiveForm;
         <?= $form->field($model->Picorder, 'orderstatus')->textInput() ?>
         <?= $form->field($model->Picorder, 'orderpiccount')->textInput() ?>
     </fieldset>
-
+    <?php
+        if ( $this->context->action->id == 'update') {
+    ?>
     <fieldset>
-        <legend>上传照片
-        </legend>
+        <legend>已经上传照片</legend>
+        <?php
+        $listpictures = array();
+        foreach ($model->Pictures as $picone) {
+            $listpictures[$picone->attributes['id']] = $picone->attributes;
+        }
+        echo $this->render('_list-picture', [
+            'form' => $form,
+            'listpictures' => $listpictures,
+        ]);
+        ?>
+    </fieldset>
+    <?php
+        }
+    ?>
+    <fieldset>
+        <legend>增加照片</legend>
         <?php
         // upload table
         $picture = new Picture();
@@ -35,6 +52,7 @@ use yii\widgets\ActiveForm;
         echo $this->render('_form-picture', [
             'form' => $form,
             'picture' => $picture,
+            'isupdate' => ($this->context->action->id == 'update')
         ]);
         ?>
     </fieldset>
