@@ -15,7 +15,7 @@ class m160907_162105_picture extends Migration
         }
         $this->createTable(self::TBL_NAME,[
             'id' => $this->primaryKey()->comment('照片流水ID'),
-            'picname' => $this->string(1000)->comment('照片名称'),
+            'picname' => $this->string()->comment('照片名称'),
             'picdir' => $this->string(1000)->comment('照片存储路径'),
             'notes' => $this->text()->comment('备注'),
             'picsavetype' => $this->integer()->comment('照片存储方式'), //二进制，1表示本地，11表示七牛和本地，10表示仅仅七牛
