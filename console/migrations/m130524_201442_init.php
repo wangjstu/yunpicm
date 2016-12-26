@@ -1,6 +1,6 @@
 <?php
 /**
- * ÓÃ»§±í
+ * ï¿½Ã»ï¿½ï¿½ï¿½
  */
 use yii\db\Migration;
 
@@ -21,7 +21,8 @@ class m130524_201442_init extends Migration
             'password_hash' => $this->string()->notNull(),
             'password_reset_token' => $this->string()->unique(),
             'email' => $this->string()->notNull()->unique(),
-
+            //--failed or to ALTER TABLE USER ADD role SMALLINT(6) DEFAULT 10
+            'role'=> $this->smallInteger(6)->notNull()->defaultValue(10)->comment('è§’è‰²ç­‰çº§'),
             'status' => $this->smallInteger()->notNull()->defaultValue(10),
             'created_at' => $this->integer()->notNull(),
             'updated_at' => $this->integer()->notNull(),

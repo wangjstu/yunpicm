@@ -35,27 +35,37 @@ class Retouchlist extends \yii\db\ActiveRecord
         return '{{%retouchlist}}';
     }
 
+    public function scenarios()
+    {
+        $scenarios = parent::scenarios();
+        $scenarios['xiupian'] = ['opterid','opttype', 'orderid', 'picid', 'orgpicid','isvalid','datasource','modifysource'];
+        $scenarios['kanpian'] = ['opterid','opttype', 'orderid', 'picid', 'orgpicid','isvalid','datasource','modifysource'];
+        return $scenarios;
+    }
+
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['opttype', 'orderid', 'picid', 'orgpicid'], 'safe'],
+            [['opttype', 'orderid', 'picid', 'orgpicid','isvalid','datasource','modifysource'], 'safe'],
             [['opttype', 'orderid', 'picid', 'orgpicid', 'opterid'], 'integer'],
             [['opterid'], 'required'],
+            ['opttype', 'default', 'value' => self::RETOUCHLIST_XIUPIAN, 'on' => ['xiupian']],
+            ['opttype', 'default', 'value' => self::RETOUCHLIST_KANPIAN, 'on' => ['kanpian']],
             [['datasource', 'modifysource'], 'string', 'max' => 30],
-            ['opttype', 'default', 'value' => self::RETOUCHLIST_XIUPIAN],
             ['isvalid', 'default', 'value' => 1],
+            ['orgpicid', 'default', 'value' => 0],//没有orgpic的传0
             [['datasource', 'modifysource'], 'default', 'value'=>'PHP'],
             [['orderid'], 'exist',
                 'skipOnError' => true,
                 'targetClass' => Picorder::className(),
-                'targetAttribute' => ['orderid'=>'id']],
+                'targetAttribute' => ['orderid' => 'id']],
             [['picid'], 'exist',
                 'skipOnError' => true,
                 'targetClass' => Picture::className(),
-                'targetAttribute' => ['picid'=>'id']]
+                'targetAttribute' => ['picid' => 'id']]
         ];
     }
 

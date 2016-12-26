@@ -19,14 +19,17 @@ class Repairphoto extends Model
 {
     protected $_picorder; //一个表单应该只有一个订单记录
     protected $_retouchlists; //一个表单应该有多条(>0)拍摄记录，一个订单有多张照片，一张照片对应一条拍摄记录
-    protected $_pictures; //一个表单应该有多条(>0)照片，一个订单有多张照片
+    protected $_repairpictures; //一个表单应该有多条(>0)照片，一个订单有多张照片
+    protected $_pictures; //一张订单的原照片
 
     protected $picturesKeep; //记录picture对象插入后的id
+    protected $orgPicturesKeep; //记录picture对象插入后的id
 
     public function rules()
     {
         return [
-            [['Picorder','Pictures','Retouchlists'], 'required'],
+            [['Picorder','Repairpictures','Retouchlists'], 'required'],
+            ['Pictures', 'safe']
         ];
     }
 
@@ -51,7 +54,7 @@ class Repairphoto extends Model
             $transaction->rollBack();
             return false;
         }
-        if (!$this->savePictures()) {
+        if (!$this->saveRepairpictures()) {
             $transaction->rollBack();
             return false;
         }
@@ -63,14 +66,22 @@ class Repairphoto extends Model
         return true;
     }
 
-    public function savePictures()
+    public function saveRepairpictures()
     {
         $this->picturesKeep = [];
-        foreach ($this->Pictures as $pid=>$picture) {
-            if (!$picture->save(false)) {
+        $orgkeeptmp = [];
+        foreach ($this->_pictures as $orgpic) {
+            $orgkeeptmp[$orgpic->id] = Yii::$app->PictureTool->getOrgFilename($orgpic->picname);
+        }
+        foreach ($this->Repairpictures as $pid=>$repairpicture) {
+            if (!$repairpicture->save(false)) {
                 return false;
             }
-            $this->picturesKeep[$pid] = $picture->id;
+            $this->orgPicturesKeep[$pid] = array_search(Yii::$app->PictureTool->getOrgFilename($repairpicture->picname), $orgkeeptmp, true);
+            if($this->orgPicturesKeep[$pid] === false){
+                $this->orgPicturesKeep[$pid] = 0;
+            }
+            $this->picturesKeep[$pid] = $repairpicture->id;
         }
         return true;
     }
@@ -80,7 +91,13 @@ class Repairphoto extends Model
     {
         foreach ($this->Retouchlists as $pid=>$retouchlist) {
             $retouchlist->orderid = $this->Picorder->id;
-            if (isset($this->picturesKeep[$pid])) $retouchlist->picid = $this->picturesKeep[$pid];
+            $retouchlist->opttype = Retouchlist::RETOUCHLIST_XIUPIAN;
+            if (isset($this->picturesKeep[$pid])) {
+                $retouchlist->picid = $this->picturesKeep[$pid];
+            }
+            if (isset($this->orgPicturesKeep[$pid])) {
+                $retouchlist->orgpicid = $this->orgPicturesKeep[$pid];
+            }
             if (!$retouchlist->save(false)) {
                 return false;
             }
@@ -102,6 +119,14 @@ class Repairphoto extends Model
         }
     }
 
+    public function getRepairpictures()
+    {
+        if ($this->_repairpictures === null) {
+            $this->_repairpictures = $this->Picorder->isNewRecord ? [] : $this->Picorder->retouchpictures;
+        }
+        return $this->_repairpictures;
+    }
+
     public function getPictures()
     {
         if ($this->_pictures === null) {
@@ -110,7 +135,7 @@ class Repairphoto extends Model
         return $this->_pictures;
     }
 
-    public function getPicture($key)
+    public function getRepairpicture($key)
     {
         $picture = $key && strpos($key, 'new') === false ? Picture::findOne($key) :false;
         if (!$picture) {
@@ -120,15 +145,15 @@ class Repairphoto extends Model
         return $picture;
     }
 
-    public function setPictures($pictures)
+    public function setRepairpictures($pictures)
     {
-        $this->_pictures = [];
+        $this->_repairpictures = [];
         foreach ($pictures as $key=>$picture) {
             if (is_array($picture)) {
-                $this->_pictures[$key] = $this->getPicture($key);
-                $this->_pictures[$key]->setAttributes($picture);
+                $this->_repairpictures[$key] = $this->getRepairpicture($key);
+                $this->_repairpictures[$key]->setAttributes($picture);
             } elseif ($picture instanceof Picture) {
-                $this->_pictures[$picture->id] = $picture;
+                $this->_repairpictures[$picture->id] = $picture;
             }
         }
     }
@@ -146,6 +171,7 @@ class Repairphoto extends Model
         $retouchlist = $key && strpos($key, 'new') === false ? Retouchlist::findOne($key) :false;
         if (!$retouchlist) {
             $retouchlist = new Retouchlist();
+            $retouchlist->setScenario('xiupian');
             $retouchlist->loadDefaultValues();
         }
         return $retouchlist;
@@ -186,11 +212,20 @@ class Repairphoto extends Model
         $models = [
             'Picorder' => $this->Picorder,
         ];
-        foreach ($this->Pictures as $pid=>$picture) {
-            $models['Picture.' . $pid] = $picture;
+        if (!empty($this->Pictures)) {
+            foreach ($this->Pictures as $pid=>$picture) {
+                $models['Picture.' . $pid] = $picture;
+            }
         }
-        foreach ($this->Retouchlists as $lid=>$retouchlist) {
-            $models['Retouchlist.' . $lid] = $retouchlist;
+        if (!empty($this->Repairpictures)) {
+            foreach ($this->Repairpictures as $pid=>$picture) {
+                $models['Picture.' . $pid] = $picture;
+            }
+        }
+        if (!empty($this->Retouchlists)) {
+            foreach ($this->Retouchlists as $lid=>$retouchlist) {
+                $models['Retouchlist.' . $lid] = $retouchlist;
+            }
         }
         return $models;
     }

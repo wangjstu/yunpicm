@@ -187,11 +187,15 @@ class Photographer extends Model
         $models = [
             'Picorder' => $this->Picorder,
         ];
-        foreach ($this->Pictures as $pid=>$picture) {
-            $models['Picture.' . $pid] = $picture;
+        if (!empty($this->Pictures)) {
+            foreach ($this->Pictures as $pid=>$picture) {
+                $models['Picture.' . $pid] = $picture;
+            }
         }
-        foreach ($this->Photolists as $lid=>$photolist) {
-            $models['Photolist.' . $lid] = $photolist;
+        if (!empty($this->Photolists)) {
+            foreach ($this->Photolists as $lid=>$photolist) {
+                $models['Photolist.' . $lid] = $photolist;
+            }
         }
         return $models;
     }

@@ -42,6 +42,23 @@ class PictureTool extends Component
     }
 
     /**
+     * 根据上面的generateFilename来获取文件的原来名称
+     * @param $filename
+     * @param string $delimiter
+     * @return string
+     */
+    public function getOrgFilename($filename, $delimiter='_')
+    {
+        $strposdel = strpos($filename, $delimiter);
+        $lastpot = strpos($filename, '.');
+        if ($strposdel!==false && $lastpot!==false && $lastpot>$strposdel) {
+            return substr($filename, $strposdel);
+        } else {
+            return $filename;
+        }
+    }
+
+    /**
      * 将图片保存到本地
      * @param $uploadFileinstance
      * @param $fileSaveDirAndName

@@ -97,7 +97,8 @@ class Picorder extends \yii\db\ActiveRecord
         //第一个参数为要关联的子表模型类名，
         //第二个参数指定 通过子表的orderid，关联主表的id字段
         //Photolist.orderid <- Picorder.id 关联建立一对多关系
-        return $this->hasMany(Photolist::className(), ['orderid'=>'id']);
+        //@http://yii2.techbrood.com/guide-active-record.html
+        return $this->hasMany(Photolist::className(), ['orderid'=>'id'])->where('photolist.isvalid=:in_isvalid', ['in_isvalid'=>1]);
     }
 
     /**
@@ -106,16 +107,45 @@ class Picorder extends \yii\db\ActiveRecord
      */
     public function getRetouchlists()
     {
-        return $this->hasMany(Retouchlist::className(), ['orderid'=>'id']);
+        return $this->hasMany(Retouchlist::className(), ['orderid' => 'id'])->where('retouchlist.opttype=:retouchtype and retouchlist.isvalid=:in_isvalid', [':retouchtype' => Retouchlist::RETOUCHLIST_XIUPIAN, 'in_isvalid'=>1]);
     }
 
     /**
-     * 订单照片
+     * 看片师记录
+     * @return \yii\db\ActiveQuery
+     */
+    public function getViewphotolists()
+    {
+        return $this->hasMany(Retouchlist::className(), ['orderid' => 'id'])->where('retouchlist.opttype=:retouchtype and retouchlist.isvalid=:in_isvalid', [':retouchtype' => Retouchlist::RETOUCHLIST_KANPIAN, 'in_isvalid'=>1]);
+    }
+
+    /**
+     * 订单原照片
      * @return $this
      */
     public function getPictures()
     {
         //Picture.id<-(Photolist.orderid <- Picorder.id).picid
-        return $this->hasMany(Picture::className(), ['id'=>'picid'])->via('photolists');
+        return $this->hasMany(Picture::className(), ['id' => 'picid'])->where('picture.isvalid=:in_isvalid', ['in_isvalid'=>1])->via('photolists');
+    }
+
+    /**
+     * 订单修片照片
+     * @return $this
+     */
+    public function getRetouchpictures()
+    {
+        //Picture.id<-(Photolist.orderid <- Picorder.id).picid
+        return $this->hasMany(Picture::className(), ['id' => 'picid'])->where('picture.isvalid=:in_isvalid', ['in_isvalid'=>1])->via('retouchlists');
+    }
+
+    /**
+     * 订单看片师修片照片
+     * @return $this
+     */
+    public function getViewpictures()
+    {
+        //Picture.id<-(Photolist.orderid <- Picorder.id).picid
+        return $this->hasMany(Picture::className(), ['id' => 'picid'])->where('picture.isvalid=:in_isvalid', ['in_isvalid'=>1])->via('viewphotolists');
     }
 }
