@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "d7fada55e97bbe8aa8077542c41b7f0c",
-    "content-hash": "afc0819caf9d803832a162ab494e4c73",
+    "hash": "5c831d4c936bf28b47f10fe3a2ca3239",
+    "content-hash": "0611a53605fd38f48e60556da0690a38",
     "packages": [
         {
             "name": "almasaeed2010/adminlte",
@@ -691,6 +691,64 @@
             "time": "2016-10-08 18:30:04"
         },
         {
+            "name": "mdmsoft/yii2-admin",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mdmsoft/yii2-admin.git",
+                "reference": "13de4624a0e46d8341d3461f81046f39a6459836"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://packagist.phpcomposer.com/files/mdmsoft/yii2-admin/13de4624a0e46d8341d3461f81046f39a6459836.zip",
+                "reference": "13de4624a0e46d8341d3461f81046f39a6459836",
+                "shasum": ""
+            },
+            "require": {
+                "yiisoft/yii2": "~2.0.7"
+            },
+            "require-dev": {
+                "yiisoft/yii2-codeception": "~2.0"
+            },
+            "suggest": {
+                "yiisoft/yii2-bootstrap": "Used when using layout 'left-menu', 'right-menu' or 'top-menu'"
+            },
+            "type": "yii2-extension",
+            "extra": {
+                "branch-alias": {
+                    "dev-1.0.master": "1.0.x-dev",
+                    "dev-master": "2.x-dev"
+                },
+                "asset-installer-paths": {
+                    "npm-asset-library": "vendor/npm",
+                    "bower-asset-library": "vendor/bower"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "mdm\\admin\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Misbahul Munir",
+                    "email": "misbahuldmunir@gmail.com"
+                }
+            ],
+            "description": "RBAC Auth manager for Yii2 ",
+            "keywords": [
+                "admin",
+                "auth",
+                "rbac",
+                "yii"
+            ],
+            "time": "2016-12-01 03:31:21"
+        },
+        {
             "name": "rmrevin/yii2-fontawesome",
             "version": "2.17.0",
             "source": {
@@ -1194,6 +1252,7 @@
                 "codeception",
                 "yii2"
             ],
+            "abandoned": "codeception/codeception",
             "time": "2016-03-17 03:41:26"
         },
         {
@@ -1348,7 +1407,8 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "crazyfd/yii2-qiniu": 20,
-        "kartik-v/yii2-widget-fileinput": 20
+        "kartik-v/yii2-widget-fileinput": 20,
+        "mdmsoft/yii2-admin": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
