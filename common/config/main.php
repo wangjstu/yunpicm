@@ -1,6 +1,22 @@
 <?php
 return [
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
+    'modules' => [
+        "admin" => [
+            "class" => "mdm\admin\Module"
+        ],
+    ],
+    "aliases" => [
+        "@mdm/admin" => "@vendor/mdmsoft/yii2-admin"
+    ],
+    "as access" => [
+        "class" => 'mdm\admin\components\AccessControl',
+        'allowActions' => [
+            //这里是允许访问的action， *表示允许所有
+            //controller/action
+            '*'
+        ]
+    ],
     'components' => [
         'cache' => [
             'class' => 'yii\caching\FileCache',
@@ -23,7 +39,8 @@ return [
         'authManager' => [
             //components数组中加入authManager组件,有PhpManager和DbManager两种方式,
             //PhpManager将权限关系保存在文件里,这里使用的是DbManager方式,将权限关系保存在数据库.
-            'class' => 'yii\rbac\DbManager'
+            "class" => 'yii\rbac\DbManager',
+            "defaultRoles" => ["guest"],
         ],
         'ServiceSupport' =>[  //网站展示工具类
             'class' => 'common\components\ServiceSupport'

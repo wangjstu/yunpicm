@@ -1,6 +1,6 @@
 <?php
 /**
- * �û���
+ * 用户表
  */
 use yii\db\Migration;
 

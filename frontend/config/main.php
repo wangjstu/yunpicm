@@ -7,6 +7,7 @@ $params = array_merge(
 );
 
 return [
+    'name' => '照片云',
     'id' => 'app-frontend',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
@@ -41,8 +42,10 @@ return [
         ],
         /*
         'urlManager' => [
-            'enablePrettyUrl' => true,
-            'showScriptName' => false,
+            //用于表明 urlManager 是否启用URL美化功能
+            "enablePrettyUrl" => true,
+            // 是否在URL中显示入口脚本
+            "showScriptName" => false,
             'rules' => [
             ],
         ],
