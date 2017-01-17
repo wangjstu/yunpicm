@@ -15,28 +15,64 @@ use yii\base\Model;
 use common\models\Picorder;
 use common\models\Retouchlist;
 use common\models\Picture;
+use common\models\Photolist;
+use yii\data\Pagination;
 
 class ListStatus extends Model
 {
 
     /**
      * 根据用户id获取历史订单(包括拍摄、修片、看片)
+     * @param $userid
+     * @param int $type
+     * @param int $pagesize
+     * @return array
      */
-    public function getOrdersByUserid($userid, $type=0)
+    public function getOrdersByUserid($userid, $type=0, $pagesize=10)
     {
-        $res = [];
         switch ($type) {
             case Retouchlist::RETOUCHLIST_XIUPIAN: //修片
-                $res = Picorder::find()->joinWith('retouchlists')->where(['picorder.isvalid'=>1])->all();
+                $data = Picorder::find()->joinWith('retouchlists')->where(['picorder.isvalid'=>1, 'retouchlist.opterid'=>$userid])->orderBy('picorder.created_at DESC')->distinct();
+                $usertype = '修片';
                 break;
             case Retouchlist::RETOUCHLIST_KANPIAN: //看片
-                $res = Picorder::find()->joinWith('viewphotolists')->where(['picorder.isvalid'=>1])->all();
+                $data = Picorder::find()->joinWith('viewphotolists')->where(['picorder.isvalid'=>1, 'retouchlist.opterid'=>$userid])->orderBy('picorder.created_at DESC')->distinct();
+                $usertype = '看片';
                 break;
-            default:
-                $res = Picorder::find()->joinWith('photolists')->where(['picorder.isvalid'=>1])->all();
+            default: //拍摄
+                $data = Picorder::find()->joinWith('photolists')->where(['picorder.isvalid'=>1, 'photolist.userid'=>$userid])->orderBy('picorder.created_at DESC')->distinct();
+                $usertype = '拍摄';
                 break;
         }
-        return $res;
+        $pages = new Pagination([
+            'totalCount' =>$data->count(),
+            'pageSize' => $pagesize,
+            'pageSizeParam' => false, //默认带的有每页的数量per-page 如果你不想显示该参数，设置pageSizeParam=false
+            'pageParam' => 'p', //默认的页面取决于参数page,如果你想改变该参数为p,设置pageParam=p
+            //'validatePage' => false, //分页验证
+        ]);
+        $model = $data->offset($pages->offset)->limit($pages->limit)->all();
+        return ['model'=>$model, 'pages'=>$pages, 'usertype'=>$usertype];
+    }
+
+    /**
+     * 根据订单状态获取订单-主要用户获取待修片、待看片的记录
+     * @param int $status
+     * @param int $pagesize
+     * @return array
+     */
+    public function getOrdersByStatus($status=0, $pagesize=10)
+    {
+        $data = Picorder::find()->where(['picorder.isvalid'=>1, 'picorder.orderstatus'=>$status])->orderBy('picorder.created_at DESC');
+        $pages = new Pagination([
+            'totalCount' =>$data->count(),
+            'pageSize' => $pagesize,
+            'pageSizeParam' => false, //默认带的有每页的数量per-page 如果你不想显示该参数，设置pageSizeParam=false
+            'pageParam' => 'p', //默认的页面取决于参数page,如果你想改变该参数为p,设置pageParam=p
+            //'validatePage' => false, //分页验证
+        ]);
+        $model = $data->offset($pages->offset)->limit($pages->limit)->all();
+        return ['model'=>$model, 'pages'=>$pages];
     }
 
     /**
@@ -70,6 +106,22 @@ class ListStatus extends Model
                 break;
         }
         return $res;
+    }
+
+
+    /**
+     * 获取订单详情
+     * @param $orderid
+     * @param int $isvalid
+     * @return array|null|yii\db\ActiveRecord
+     */
+    public function getOrderDetails($orderid, $isvalid=1)
+    {
+        $orderDetail = Picorder::find()
+            ->select('picorder.*')
+            ->where(['picorder.isvalid'=>$isvalid, 'picorder.id'=>$orderid])
+            ->one();
+        return $orderDetail;
     }
 
 }

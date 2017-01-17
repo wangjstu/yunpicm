@@ -21,7 +21,8 @@
         "crazyfd/yii2-qiniu": "dev-master",
         "kartik-v/yii2-widget-fileinput": "@dev",
         "dmstr/yii2-adminlte-asset": "2.*",
-        "mdmsoft/yii2-admin": "dev-master"
+        "mdmsoft/yii2-admin": "dev-master",
+        "shmilyzxt/yii2-queue": "dev-master"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

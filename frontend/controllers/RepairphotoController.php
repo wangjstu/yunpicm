@@ -168,7 +168,6 @@ class RepairphotoController extends \yii\web\Controller
                             $postdata['Repairpictures']['new'.($k+1)] = array('picname'=>$picname, 'picdir'=>$saveFileDir,
                                 'notes'=>isset($postdata['Picorder']['note'])?$postdata['Picorder']['note']:'add', 'picsavetype'=>Yii::getAlias('@picsavetype'));
                             $postdata['Retouchlists']['new'.($k+1)] = array('opterid'=>Yii::$app->user->id);
-                            $postdata['Picorder']['orderstatus'] = 7; //修片完毕
                         } else {
                             throw new yii\web\HttpException(404, 'error create(1)!');
                         }

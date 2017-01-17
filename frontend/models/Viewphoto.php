@@ -64,6 +64,7 @@ class Viewphoto extends Model
             return false;
         }
         $transaction->commit();
+        Yii::$app->ServiceSupport->clearLock($this->Picorder->id, Yii::$app->user->id, Picorder::OS_ORDER_VIEWING);
         return true;
     }
 

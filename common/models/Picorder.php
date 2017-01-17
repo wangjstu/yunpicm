@@ -148,4 +148,42 @@ class Picorder extends \yii\db\ActiveRecord
         //Picture.id<-(Photolist.orderid <- Picorder.id).picid
         return $this->hasMany(Picture::className(), ['id' => 'picid'])->where('picture.isvalid=:in_isvalid', ['in_isvalid'=>1])->via('viewphotolists');
     }
+
+    const OS_ORDER_FAILD = -1; //订单失败
+    const OS_ORDER_READY_PHOTO = 0; //待拍摄
+    const OS_ORDER_READY_RETOUCH = 1; //待修片
+    const OS_ORDER_RETOUCHING = 2; //修片中..不会记录到数据库中，使用ServiceSupport中的orderlock设置该状态
+    const OS_ORDER_READY_VIEW = 3; //待看片
+    const OS_ORDER_VIEWING = 4; //看片中..不会记录到数据库中，使用ServiceSupport中的orderlock设置该状态
+    const OS_ORDER_SUCCESS = 5; //订单结束
+
+    /**
+     * 获取订单状态
+     * @return array
+     */
+    public static function orderStatus($status=0, $isAll=false)
+    {
+        $statusArr = [
+            '-1'=>'订单失败',
+            '0'=>'待拍摄',
+            '1'=>'待修片', //拍摄完毕
+            '2'=>'修片中',
+            '3'=>'待看片', //修片完毕
+            '4'=>'看片中',
+            '5'=>'订单结束', //订单成功
+        ];
+        return $isAll ? $statusArr:$statusArr[$status];
+    }
+
+
+    /**
+     * 结合库表及cache打印出订单状态
+     * @param $orderid
+     * @param $status 库中数据
+     * @return array
+     */
+    public static function printOrderStatus($orderid, $status)
+    {
+        return Yii::$app->ServiceSupport->isLockOrder($orderid, $status+1) ? self::orderStatus($status+1) : self::orderStatus($status);
+    }
 }

@@ -1,0 +1,2 @@
+2017/01/17 18:03:29 [error] 2992#0: *675 upstream timed out (110: Connection timed out) while reading response header from upstream, client: 10.0.2.2, server: yunpicmfront.dev, request: "GET /index.php HTTP/1.1", upstream: "fastcgi://127.0.0.1:9000", host: "yunpicmfront.dev"
+2017/01/17 18:05:25 [error] 2992#0: *679 upstream timed out (110: Connection timed out) while reading response header from upstream, client: 10.0.2.2, server: yunpicmfront.dev, request: "GET /index.php?r=repairphoto/create&id=8 HTTP/1.1", upstream: "fastcgi://127.0.0.1:9000", host: "yunpicmfront.dev"

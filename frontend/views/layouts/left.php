@@ -49,7 +49,7 @@ use yii\helpers\Url;
                 </a>
                 <ul class="treeview-menu">
                     <li><a href="<?php echo Url::to(['/photographer/create']);?>"><i class="fa fa-circle-o"></i> 上传照片</a></li>
-                    <li><a href="<?php echo Url::to(['/admin/permission']);?>"><i class="fa fa-circle-o"></i> 历史订单</a></li>
+                    <li><a href="<?php echo Url::to(['/list/history-order', 'type'=>0]);?>"><i class="fa fa-circle-o"></i> 历史订单</a></li>
                 </ul>
             </li>
             <li class="treeview">
@@ -57,9 +57,9 @@ use yii\helpers\Url;
                     <i class="fa  fa-pencil-square"></i> 修片师 <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="<?php echo Url::to(['repairphoto/']);?>"><i class="fa fa-circle-o"></i> 在线订单</a></li>
-                    <li><a href="<?php echo Url::to(['repairphoto/create']);?>"><i class="fa fa-circle-o"></i> 修整照片</a></li>
-                    <li><a href="<?php echo Url::to(['/admin/permission']);?>"><i class="fa fa-circle-o"></i> 历史订单</a></li>
+                    <li><a href="<?php echo Url::to(['/list/ready-order', 'status'=>1]);?>"><i class="fa fa-circle-o"></i> 待接订单</a></li>
+                    <li><a href="<?php echo Url::to(['/list/operating']);?>"><i class="fa fa-circle-o"></i> 处理订单</a></li>
+                    <li><a href="<?php echo Url::to(['/list/history-order', 'type'=>1]);?>"><i class="fa fa-circle-o"></i> 历史订单</a></li>
                 </ul>
             </li>
             <li class="treeview">
@@ -67,9 +67,9 @@ use yii\helpers\Url;
                     <i class="fa fa-photo"></i> 看片师 <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="<?php echo Url::to(['/admin/route']);?>"><i class="fa fa-circle-o"></i> 在线订单</a></li>
-                    <li><a href="<?php echo Url::to(['/viewphoto/create']);?>"><i class="fa fa-circle-o"></i> 最终看片</a></li>
-                    <li><a href="<?php echo Url::to(['/admin/permission']);?>"><i class="fa fa-circle-o"></i> 历史订单</a></li>
+                    <li><a href="<?php echo Url::to(['/list/ready-order', 'status'=>3]);?>"><i class="fa fa-circle-o"></i> 待接订单</a></li>
+                    <li><a href="<?php echo Url::to(['/list/operating']);?>"><i class="fa fa-circle-o"></i> 处理订单</a></li>
+                    <li><a href="<?php echo Url::to(['/list/history-order', 'type'=>2]);?>"><i class="fa fa-circle-o"></i> 历史订单</a></li>
                 </ul>
             </li>
         </ul>

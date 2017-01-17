@@ -21,7 +21,7 @@ use yii\widgets\ActiveForm;
         <?= $form->field($model->Picorder, 'contacttel')->textInput() ?>
         <?= $form->field($model->Picorder, 'istodaysee')->textInput() ?>
         <?= $form->field($model->Picorder, 'ordertype')->textInput() ?>
-        <?= $form->field($model->Picorder, 'orderstatus')->textInput() ?>
+        <?= $form->field($model->Picorder, 'orderstatus')->textInput()->hiddenInput(['value'=>Picorder::OS_ORDER_READY_RETOUCH])->label(false) ?>
         <?= $form->field($model->Picorder, 'orderpiccount')->textInput() ?>
     </fieldset>
     <?php
@@ -57,7 +57,7 @@ use yii\widgets\ActiveForm;
         ?>
     </fieldset>
 
-    <?= Html::submitButton('Save'); ?>
+    <?= Html::submitButton('保存'); ?>
     <?php ActiveForm::end(); ?>
 
 </div>
