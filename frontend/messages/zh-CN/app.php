@@ -45,4 +45,7 @@ return [
     'opttype' => "操作类型", //修片/看片
     'orgpicid' => "原片ID",
     'opterid' => "操作人",
+
+    "Username" => "用户名",
+    "password" => "密码"
 ];

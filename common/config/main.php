@@ -1,22 +1,6 @@
 <?php
 return [
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
-    'modules' => [
-        "admin" => [
-            "class" => "mdm\admin\Module"
-        ],
-    ],
-    "aliases" => [
-        "@mdm/admin" => "@vendor/mdmsoft/yii2-admin"
-    ],
-    "as access" => [
-        "class" => 'mdm\admin\components\AccessControl',
-        'allowActions' => [
-            //这里是允许访问的action， *表示允许所有
-            //controller/action
-            '*'
-        ]
-    ],
     'components' => [
         'cache' => [
             'class' => 'yii\caching\FileCache',

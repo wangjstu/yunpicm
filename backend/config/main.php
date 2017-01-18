@@ -12,7 +12,22 @@ return [
     'language'=>'zh-CN',
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
-    'modules' => [],
+    'modules' => [
+        "admin" => [
+            "class" => "mdm\admin\Module"
+        ],
+    ],
+    "aliases" => [
+        "@mdm/admin" => "@vendor/mdmsoft/yii2-admin"
+    ],
+    "as access" => [
+        "class" => 'mdm\admin\components\AccessControl',
+        'allowActions' => [
+            //这里是允许访问的action， *表示允许所有
+            //controller/action
+            '*'
+        ]
+    ],
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-backend',
