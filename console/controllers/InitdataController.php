@@ -3,6 +3,7 @@
 namespace  console\controllers;
 
 use yii\console\Controller;
+use common\models\User;
 
 class InitdataController extends Controller
 {
@@ -23,9 +24,21 @@ class InitdataController extends Controller
     //yii migrate/create --migrationTable=my_migration
     //[[yii\console\controllers\MigrateController::actionCreate()|MigrateController::actionCreate()]] 中的 [[yii\console\controllers\MigrateController::$migrationTable|MigrateController::$migrationTable]] 属性可以用下面的方法来设置
 
-    public function actionCreate()
+    public function actionCreate($username, $password, $email='admin@admin.com')
     {
-        echo 1;
-        return 0;
+        $user = new User();
+        $user->username = $username;
+        $user->email = $email;
+        $user->setPassword($password);
+        $user->generateAuthKey();
+
+        if ($user->validate() && $user->save()) {
+            echo "创建用户成功 username:" . $username . " password: " . $password . " 成功" . PHP_EOL;
+            return 0;
+        } else {
+            echo "创建用户成功 username:" . $username . " password: " . $password . " 失败" .PHP_EOL;
+            echo "error:" . $user->errors . PHP_EOL;
+            return 1;
+        }
     }
 }

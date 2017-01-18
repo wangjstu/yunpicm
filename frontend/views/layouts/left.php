@@ -33,6 +33,15 @@ use yii\helpers\Url;
             <li class="header"><span>菜单</span></li>
             <li class="treeview">
                 <a href="#">
+                    <i class="fa fa-lock"></i> 用户管理 <i class="fa fa-angle-left pull-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="<?php echo Url::to(['/site/signup']);?>"><i class="fa fa-circle-o"></i> 新建用户</a></li>
+                    <li><a href="<?php echo Url::to(['site/reset-password-by-password']);?>"><i class="fa fa-circle-o"></i> 修改密码</a></li>
+                </ul>
+            </li>
+            <li class="treeview">
+                <a href="#">
                     <i class="fa fa-lock"></i> 权限控制 <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="treeview-menu">

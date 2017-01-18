@@ -1,6 +1,7 @@
 <?php
 namespace frontend\controllers;
 
+use common\models\User;
 use Yii;
 use yii\base\InvalidParamException;
 use yii\web\BadRequestHttpException;
@@ -231,5 +232,32 @@ class SiteController extends Controller
         return $this->render('resetPassword', [
             'model' => $model,
         ]);
+    }
+
+    public function actionResetPasswordByPassword()
+    {
+        if (Yii::$app->request->isPost) {
+            $data = Yii::$app->request->post();
+            if ($data['newpassword1'] === $data['newpassword2'] && strlen($data['newpassword2'])>=6) {
+                $user = User::findOne(Yii::$app->user->id);
+                if (!$user) {
+                    throw new InvalidParamException('修改密码异常.');
+                }
+                $user->setPassword($data['newpassword1']);
+                if ($user->validate() && $user->save()) {
+                    Yii::$app->getSession()->setFlash('success', '修改密码成功，请重新登录!');
+                    Yii::$app->user->logout();
+                    return $this->goHome();
+                } else {
+                    Yii::$app->getSession()->setFlash('info', '修改密码失败!');
+                    return $this->goBack();
+                }
+            } else {
+                Yii::$app->getSession()->setFlash('info', '修改密码失败,密码长度不够或密码不一致!');
+                return $this->render('resetPasswordPassword');
+            }
+        } else {
+            return $this->render('resetPasswordPassword');
+        }
     }
 }
