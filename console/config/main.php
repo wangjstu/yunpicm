@@ -14,10 +14,10 @@ return [
     'components' => [
         'authManager' => [
             'class' => 'yii\rbac\DbManager',
-            'itemTable' => 'web_auth_item',
-            'assignmentTable' => 'web_auth_assignment',
-            'itemChildTable' => 'web_auth_item_child',
-            'ruleTable'=>'web_auth_rule'  ,
+            'itemTable' => 'auth_item',
+            'assignmentTable' => 'auth_assignment',
+            'itemChildTable' => 'auth_item_child',
+            'ruleTable'=>'auth_rule'  ,
         ],
         'log' => [
             'targets' => [
