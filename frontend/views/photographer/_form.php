@@ -19,7 +19,7 @@ use yii\widgets\ActiveForm;
         <?= $form->field($model->Picorder, 'notes')->textInput() ?>
         <?= $form->field($model->Picorder, 'contacts')->textInput() ?>
         <?= $form->field($model->Picorder, 'contacttel')->textInput() ?>
-        <?= $form->field($model->Picorder, 'istodaysee')->textInput() ?>
+        <?= $form->field($model->Picorder, 'istodaysee')->dropDownList(['否', '是']) ?>
         <?= $form->field($model->Picorder, 'ordertype')->textInput() ?>
         <?= $form->field($model->Picorder, 'orderstatus')->textInput()->hiddenInput(['value'=>Picorder::OS_ORDER_READY_RETOUCH])->label(false) ?>
         <?= $form->field($model->Picorder, 'orderpiccount')->textInput() ?>
