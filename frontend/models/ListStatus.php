@@ -9,7 +9,6 @@
  *  * 根据订单id展示订单状态(现在状态、历史状态中的照片)
  */
 namespace  frontend\models;
-
 use yii;
 use yii\base\Model;
 use common\models\Picorder;
@@ -17,10 +16,8 @@ use common\models\Retouchlist;
 use common\models\Picture;
 use common\models\Photolist;
 use yii\data\Pagination;
-
 class ListStatus extends Model
 {
-
     /**
      * 根据用户id获取历史订单(包括拍摄、修片、看片)
      * @param $userid
@@ -54,7 +51,6 @@ class ListStatus extends Model
         $model = $data->offset($pages->offset)->limit($pages->limit)->all();
         return ['model'=>$model, 'pages'=>$pages, 'usertype'=>$usertype];
     }
-
     /**
      * 根据订单状态获取订单-主要用户获取待修片、待看片的记录
      * @param int $status
@@ -74,7 +70,6 @@ class ListStatus extends Model
         $model = $data->offset($pages->offset)->limit($pages->limit)->all();
         return ['model'=>$model, 'pages'=>$pages];
     }
-
     /**
      * 根据订单id查看订单详情(现在状态、历史状态中的照片)
      */
@@ -107,8 +102,6 @@ class ListStatus extends Model
         }
         return $res;
     }
-
-
     /**
      * 获取订单详情
      * @param $orderid
@@ -123,5 +116,4 @@ class ListStatus extends Model
             ->one();
         return $orderDetail;
     }
-
 }
