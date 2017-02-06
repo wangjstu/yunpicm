@@ -17,6 +17,46 @@ use common\models\Retouchlist;
 class ListController extends \yii\web\Controller
 {
     /**
+     * @inheritdoc
+     */
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                //only 选项指明 ACF 应当只 对 login， logout 和 signup 方法起作用
+                'only' => ['operating', 'history-order', 'ready-order', 'operate-order', 'show-detail'],
+                'rules' => [
+                    [
+                        'actions' => ['operating', 'history-order', 'ready-order', 'operate-order', 'show-detail'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
+            //指定该规则用于匹配哪种请求方法（例如GET，POST）。 这里的匹配大小写不敏感
+            /*'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'logout' => ['post'],
+                ],
+            ],*/
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function actions()
+    {
+        return [
+            'error' => [
+                'class' => 'yii\web\ErrorAction',
+            ],
+        ];
+    }
+
+    /**
      * 处理中的订单 只展示在cache中的订单--状态为
      * Picorder::OS_ORDER_RETOUCHING=1;Picorder::OS_ORDER_VIEWING=3; 的订单
      * @return string
