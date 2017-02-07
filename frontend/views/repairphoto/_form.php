@@ -4,6 +4,7 @@ use common\models\Picture;
 use common\models\Retouchlist;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use common\models\Pubtype;
 ?>
 <div class="product-form">
 
@@ -19,8 +20,8 @@ use yii\widgets\ActiveForm;
         <?= $form->field($model->Picorder, 'notes')->textInput(['readonly' => 'true']) ?>
         <?= $form->field($model->Picorder, 'contacts')->textInput(['readonly' => 'true']) ?>
         <?= $form->field($model->Picorder, 'contacttel')->textInput(['readonly' => 'true']) ?>
-        <?= $form->field($model->Picorder, 'istodaysee')->dropDownList(['否', '是'],['readonly' => 'true']) ?>
-        <?= $form->field($model->Picorder, 'ordertype')->textInput(['readonly' => 'true']) ?>
+        <?= $form->field($model->Picorder, 'istodaysee')->dropDownList(['否', '是'],['disabled' => 'true']) ?>
+        <?= $form->field($model->Picorder, 'ordertype')->dropDownList(Pubtype::getOrderType(), ['disabled' => 'true']) ?>
         <?= $form->field($model->Picorder, 'orderstatus')->textInput(['readonly' => 'true'])->hiddenInput(['value'=>Picorder::OS_ORDER_READY_VIEW])->label(false) ?>
         <?= $form->field($model->Picorder, 'orderpiccount')->textInput(['readonly' => 'true']) ?>
     </fieldset>

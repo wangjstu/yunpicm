@@ -32,7 +32,7 @@ $this->title = '订单详情';
                 <label><?=Yii::t('app', 'Istodaysee')?> : </label> <?=$orderdata->istodaysee?'是':'否' ?>
             </li>
             <li>
-                <label><?=Yii::t('app', 'Ordertype')?> : </label> <?= $orderdata->ordertype ?>
+                <label><?=Yii::t('app', 'Ordertype')?> : </label> <?= Pubtype::getOrderType($orderdata->ordertype)?>
             </li>
             <li>
                 <label><?=Yii::t('app', 'Orderstatus')?> : </label> <?=Picorder::orderStatus($orderdata->orderstatus) ?>

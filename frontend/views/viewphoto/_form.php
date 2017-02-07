@@ -19,8 +19,8 @@ use yii\widgets\ActiveForm;
         <?= $form->field($model->Picorder, 'notes')->textInput(['readonly' => 'true']) ?>
         <?= $form->field($model->Picorder, 'contacts')->textInput(['readonly' => 'true']) ?>
         <?= $form->field($model->Picorder, 'contacttel')->textInput(['readonly' => 'true']) ?>
-        <?= $form->field($model->Picorder, 'istodaysee')->dropDownList(['否', '是'],['readonly' => 'true']) ?>
-        <?= $form->field($model->Picorder, 'ordertype')->textInput(['readonly' => 'true']) ?>
+        <?= $form->field($model->Picorder, 'istodaysee')->dropDownList(['否', '是'],['disabled' => 'true']) ?>
+        <?= $form->field($model->Picorder, 'ordertype')->textInput(Pubtype::getOrderType(), ['disabled' => 'true']) ?>
         <?= $form->field($model->Picorder, 'orderstatus')->textInput(['readonly' => 'true'])->hiddenInput(['value'=>Picorder::OS_ORDER_SUCCESS])->label(false) ?>
         <?= $form->field($model->Picorder, 'orderpiccount')->textInput(['readonly' => 'true']) ?>
     </fieldset>

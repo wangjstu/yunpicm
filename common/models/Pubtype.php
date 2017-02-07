@@ -78,4 +78,17 @@ class Pubtype extends \yii\db\ActiveRecord
             'modifysource' => Yii::t('app', 'Modifysource'),
         ];
     }
+
+    public static function getOrderType($type=-1)
+    {
+        $typearr = [
+            '个人','多人','不计入收费'
+        ];
+        if ($type==-1) {
+            return $typearr;
+        } else {
+            return $typearr[$type];
+        }
+    }
+
 }

@@ -4,6 +4,7 @@ use common\models\Picture;
 use common\models\Photolist;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use common\models\Pubtype;
 ?>
 <div class="product-form">
 
@@ -20,7 +21,7 @@ use yii\widgets\ActiveForm;
         <?= $form->field($model->Picorder, 'contacts')->textInput() ?>
         <?= $form->field($model->Picorder, 'contacttel')->textInput() ?>
         <?= $form->field($model->Picorder, 'istodaysee')->dropDownList(['否', '是']) ?>
-        <?= $form->field($model->Picorder, 'ordertype')->textInput() ?>
+        <?= $form->field($model->Picorder, 'ordertype')->dropDownList(Pubtype::getOrderType()) ?>
         <?= $form->field($model->Picorder, 'orderstatus')->textInput()->hiddenInput(['value'=>Picorder::OS_ORDER_READY_RETOUCH])->label(false) ?>
         <?= $form->field($model->Picorder, 'orderpiccount')->textInput() ?>
     </fieldset>
