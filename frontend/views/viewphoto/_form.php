@@ -4,6 +4,7 @@ use common\models\Picture;
 use common\models\Retouchlist;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use common\models\Pubtype;
 ?>
 <div class="product-form">
 

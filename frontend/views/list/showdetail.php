@@ -5,6 +5,7 @@ use common\models\Retouchlist;
 use common\models\Photolist;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use common\models\Pubtype;
 
 $this->title = '订单详情';
 //$this->params['breadcrumbs'][] = $this->title;

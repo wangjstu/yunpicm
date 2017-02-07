@@ -97,6 +97,7 @@ class RepairphotoController extends \yii\web\Controller
                 $model->setAttributes($postdata);
                 if ($model->validate() && $model->save()) {
                     Yii::$app->getSession()->setFlash('success', '数据保存成功!');
+                    return $this->redirect(['update', 'id'=>$model->Picorder->id]);
                 } else {
                     Yii::$app->getSession()->setFlash('failed', '数据保存失败!');
                 }
