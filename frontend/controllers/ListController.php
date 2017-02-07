@@ -129,28 +129,27 @@ class ListController extends \yii\web\Controller
             if ($isOrderLock['userid']==Yii::$app->user->id) {
                 $infoMsg = '重复接单，该订单已经被您接到';
                 Yii::$app->getSession()->setFlash('info', '接单失败..[' . $infoMsg .']');
-                if ($isOrderLock['orderstatus'] == Picorder::OS_ORDER_READY_RETOUCH) {
+                if ($isOrderLock['orderstatus'] == Picorder::OS_ORDER_RETOUCHING) {
                     return $this->redirect(['repairphoto/update', 'id'=>$orderid]); //跳到修片
-                } elseif ($isOrderLock['orderstatus'] == Picorder::OS_ORDER_READY_VIEW) {
+                } elseif ($isOrderLock['orderstatus'] == Picorder::OS_ORDER_VIEWING) {
                     return $this->redirect(['viewphoto/update', 'id'=>$orderid]); //跳到看片
                 } else {
-                    Yii::$app->getSession()->setFlash('info', '接单失败..[' . $infoMsg .']');
-                    return $this->goBack();
+                    return $this->redirect(['list/ready-order', 'status'=>$startStatus]);
                 }
             } else {
                 $infoMsg = '该定单已被别人接单';
                 Yii::$app->getSession()->setFlash('info', '接单失败..[' . $infoMsg .']');
-                return $this->goBack();
+                return $this->redirect(['list/ready-order', 'status'=>$startStatus]);
             }
         } elseif ($isUserLock) {
             $infoMsg = '你已接单中,需处理完毕后才能接单';
-            if ($isUserLock['orderstatus'] == Picorder::OS_ORDER_READY_RETOUCH) {
+            Yii::$app->getSession()->setFlash('info', '接单失败..[' . $infoMsg .']');
+            if ($isUserLock['orderstatus'] == Picorder::OS_ORDER_RETOUCHING) {
                 return $this->redirect(['repairphoto/update', 'id'=>$isUserLock['orderid']]); //跳到修片
-            } elseif ($isUserLock['orderstatus'] == Picorder::OS_ORDER_READY_VIEW) {
+            } elseif ($isUserLock['orderstatus'] == Picorder::OS_ORDER_VIEWING) {
                 return $this->redirect(['viewphoto/update', 'id'=>$isUserLock['orderid']]); //跳到看片
             } else {
-                Yii::$app->getSession()->setFlash('info', '接单失败..[' . $infoMsg .']');
-                return $this->goBack();
+                return $this->redirect(['list/ready-order', 'status'=>$startStatus]);
             }
         } else {
             $infoData = Yii::$app->ServiceSupport->PicLock($orderid, Yii::$app->user->id, $lockStatus, true);
@@ -167,7 +166,7 @@ class ListController extends \yii\web\Controller
                 }
             } else {
                 Yii::$app->getSession()->setFlash('info', '接单异常');
-                return $this->goBack();
+                return $this->redirect(['list/ready-order', 'status'=>$startStatus]);
             }
         }
     }

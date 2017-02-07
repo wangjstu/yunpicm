@@ -25,6 +25,19 @@ use common\models\Pubtype;
         <?= $form->field($model->Picorder, 'orderstatus')->textInput(['readonly' => 'true'])->hiddenInput(['value'=>Picorder::OS_ORDER_READY_VIEW])->label(false) ?>
         <?= $form->field($model->Picorder, 'orderpiccount')->textInput(['readonly' => 'true']) ?>
     </fieldset>
+    <fieldset>
+        <legend>源照片</legend>
+        <?php
+        $listpictures = array();
+        foreach ($model->Pictures as $picone) {
+            $listpictures[$picone->attributes['id']] = $picone->attributes;
+        }
+        echo $this->render('_list-picture', [
+            'form' => $form,
+            'listpictures' => $listpictures,
+        ]);
+        ?>
+    </fieldset>
     <?php
         if ( $this->context->action->id == 'update') {
     ?>

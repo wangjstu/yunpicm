@@ -19,7 +19,7 @@ use yii\helpers\Html;
     foreach ($listpictures as $picid=>$picinfo) {
     ?>
     <div class="col-sm-6 col-md-3">
-        <a href="#" class="thumbnail">
+        <a href="<?=Yii::$app->PictureTool->getUploadFileQiNiuLink($picinfo['picdir'].DIRECTORY_SEPARATOR.$picinfo['picname']);?>" target="_blank" class="thumbnail">
             <img src="<?=Yii::$app->PictureTool->getUploadFileQiNiuLink($picinfo['picdir'].DIRECTORY_SEPARATOR.$picinfo['picname'], $thumbnailAttribute);?>"
                  alt="正在加载照片...">
         </a>
