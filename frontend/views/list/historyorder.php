@@ -5,6 +5,7 @@ use yii\widgets\LinkPager;
 use \yii\helpers\Markdown;
 use \yii\helpers\Url;
 use common\models\Picorder;
+use common\models\Retouchlist;
 
 $this->title = $usertype.'历史订单';
 //$this->params['breadcrumbs'][] = $this->title;
@@ -43,7 +44,7 @@ frontend\assets\DatatableAsset::register($this);
                             <td><?=Picorder::printOrderStatus($val->id, $val->orderstatus) ?></td>
                             <td><?=date('Y-m-d H:i:s', $val->created_at) ?></td>
                             <td><?=date('Y-m-d H:i:s', $val->updated_at) ?></td>
-                            <td><?=Html::a('查看', ['list/show-detail', 'orderid'=>$val->id]) ?></td>
+                            <td><?= (Picorder::printOrderStatus($val->id, $val->orderstatus, true)==Picorder::OS_ORDER_READY_RETOUCH && $type==0) ? Html::a('修改', ['photographer/update', 'id'=>$val->id]) : ((Picorder::printOrderStatus($val->id, $val->orderstatus, true)==Picorder::OS_ORDER_READY_VIEW && $type==Retouchlist::RETOUCHLIST_XIUPIAN) ? Html::a('修改', ['repairphoto/update', 'id'=>$val->id]) : Html::a('查看', ['list/show-detail', 'orderid'=>$val->id])); ?></td>
                         </tr>
                     <?php endforeach; ?>
                     </tbody>

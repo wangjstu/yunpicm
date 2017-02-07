@@ -84,7 +84,8 @@ class ListController extends \yii\web\Controller
         return $this->render('historyorder', [
             'models' => $res['model'],
             'usertype' => $res['usertype'],
-            'pages' => $res['pages']
+            'pages' => $res['pages'],
+            'type' => $type
         ]);
     }
 

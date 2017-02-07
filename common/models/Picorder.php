@@ -182,8 +182,8 @@ class Picorder extends \yii\db\ActiveRecord
      * @param $status 库中数据
      * @return array
      */
-    public static function printOrderStatus($orderid, $status)
+    public static function printOrderStatus($orderid, $status, $isidnum=false)
     {
-        return Yii::$app->ServiceSupport->isLockOrder($orderid, $status+1) ? self::orderStatus($status+1) : self::orderStatus($status);
+        return Yii::$app->ServiceSupport->isLockOrder($orderid, $status+1) ? ($isidnum ? $status+1 :self::orderStatus($status+1)) : ($isidnum ? $status : self::orderStatus($status));
     }
 }
