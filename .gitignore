@@ -18,6 +18,8 @@ Thumbs.db
 # composer vendor dir
 /vendor
 
+!/vendor/crazyfd/yii2-qiniu/Qiniu.php
+
 # composer itself is not needed
 composer.phar
 
