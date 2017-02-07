@@ -4,11 +4,11 @@
  */
 namespace common\components;
 
-use yii\base\widget;
+use yii\base\Widget;
 use yii\helpers\Html;
 use common\models\Picorder;
 
-class PicoperateWidget extends widget
+class PicoperateWidget extends Widget
 {
     public $orderid; //订单id
     public $status; //订单状态
