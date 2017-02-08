@@ -29,8 +29,8 @@ class Viewphoto extends Model
     public function rules()
     {
         return [
-            [['Picorder','Viewpictures','Retouchlists'], 'required'],
-            [['Pictures', 'Repairpictures'], 'safe']
+            [['Picorder'], 'required'],
+            [['Pictures', 'Repairpictures','Retouchlists', 'Viewpictures'], 'safe']
         ];
     }
 
@@ -94,12 +94,8 @@ class Viewphoto extends Model
         foreach ($this->Retouchlists as $pid=>$retouchlist) {
             $retouchlist->orderid = $this->Picorder->id;
             $retouchlist->opttype = Retouchlist::RETOUCHLIST_KANPIAN;
-            if (isset($this->picturesKeep[$pid])) {
-                $retouchlist->picid = $this->picturesKeep[$pid];
-            }
-            if (isset($this->orgPicturesKeep[$pid])) {
-                $retouchlist->orgpicid = $this->orgPicturesKeep[$pid];
-            }
+            $retouchlist->picid = isset($this->picturesKeep[$pid])?$this->picturesKeep[$pid]:0;
+            $retouchlist->orgpicid = isset($this->orgPicturesKeep[$pid]) ? $this->orgPicturesKeep[$pid] : 0 ;
             if (!$retouchlist->save(false)) {
                 return false;
             }

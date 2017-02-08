@@ -93,11 +93,11 @@ class ViewphotoController extends \yii\web\Controller
                 $postdata = Yii::$app->request->post();
                 $postdata['Viewpictures'] = array();
                 $postdata['Retouchlists'] = array();
-                $postdata = $this->getPostFileAndSave($postdata);
+                $postdata = $this->getPostFileAndSave($postdata, ($model->Picorder->orderstatus == Picorder::OS_ORDER_SUCCESS));
                 $model->setAttributes($postdata);
                 if ($model->validate() && $model->save()) {
                     Yii::$app->getSession()->setFlash('success', '数据保存成功!');
-                    return $this->redirect(['update', 'id'=>$model->Picorder->id]);
+                    return $this->redirect(['list/show-detail', 'orderid'=>$model->Picorder->id]);
                 } else {
                     Yii::$app->getSession()->setFlash('failed', '数据保存失败!');
                 }
@@ -129,14 +129,14 @@ class ViewphotoController extends \yii\web\Controller
             $postdata = Yii::$app->request->post();
             $postdata['Viewpictures'] = $model->Viewpictures;
             $postdata['Retouchlists'] = $model->Retouchlists;
-            $postdata = $this->getPostFileAndSave($postdata);
+            $postdata = $this->getPostFileAndSave($postdata, ($model->Picorder->orderstatus == Picorder::OS_ORDER_SUCCESS));
             $model->setAttributes($postdata);
             if ($model->validate() && $model->save()) {
                 Yii::$app->getSession()->setFlash('success', '数据保存成功!');
+                return $this->redirect(['list/show-detail', 'orderid'=>$model->Picorder->id]);
             } else {
                 Yii::$app->getSession()->setFlash('failed', '数据保存失败!');
             }
-            return $this->redirect(['update', 'id'=>$model->Picorder->id]);
         }
 
         return $this->render('update',[
@@ -148,10 +148,11 @@ class ViewphotoController extends \yii\web\Controller
     /**
      * 处理用户上传数据
      * @param $postdata
+     * @param $isOrderFinished 订单是否结束 false=>未结束 true=>已经结束
      * @return mixed
      * @throws HttpException
      */
-    private function getPostFileAndSave($postdata)
+    private function getPostFileAndSave($postdata, $isOrderFinished=false)
     {
         if (!empty($postdata)) {
             $picture = new Picture();
@@ -175,6 +176,11 @@ class ViewphotoController extends \yii\web\Controller
                     } else {
                         throw new yii\web\HttpException(404, 'error create(2)!');
                     }
+                }
+            } else {
+                if (!$isOrderFinished) {
+                    //看片且订单未结束(无看片)允许不传照片
+                    $postdata['Retouchlists']['new1'] = array('opterid'=>Yii::$app->user->id);
                 }
             }
         }

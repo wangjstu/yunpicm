@@ -17,7 +17,7 @@ echo $form->field($picture, 'picfile[]')->label('照片')->widget(FileInput::cla
         // 是否展示预览图
         'initialPreviewAsData' => true,
         // 最少上传的文件个数限制
-        'minFileCount' => $isupdate?0:1, //更新限制0，新增至少上传1
+        'minFileCount' => 0, //更新限制0--看片可以允许不传
         // 最多上传的文件个数限制
         'maxFileCount' => 20,
         // 是否显示移除按钮，指input上面的移除按钮，非具体图片上的移除按钮
