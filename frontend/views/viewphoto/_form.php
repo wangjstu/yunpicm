@@ -38,6 +38,19 @@ use common\models\Pubtype;
         ]);
         ?>
     </fieldset>
+    <fieldset>
+        <legend>修片结果</legend>
+        <?php
+        $listpictures = array();
+        foreach ($model->Repairpictures as $picone) {
+            $listpictures[$picone->attributes['id']] = $picone->attributes;
+        }
+        echo $this->render('_list-picture', [
+            'form' => $form,
+            'listpictures' => $listpictures,
+        ]);
+        ?>
+    </fieldset>
     <?php
         if ( $this->context->action->id == 'update') {
     ?>

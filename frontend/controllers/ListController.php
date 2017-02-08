@@ -156,9 +156,9 @@ class ListController extends \yii\web\Controller
             if ($infoData) {
                 Yii::$app->getSession()->setFlash('info', '接单成功');
                 if ($startStatus == Picorder::OS_ORDER_READY_RETOUCH) {
-                    return $this->redirect(['repairphoto/update', 'id'=>$orderid]); //跳到修片
+                    return $this->redirect(['repairphoto/create', 'id'=>$orderid]); //跳到修片
                 } elseif ($startStatus == Picorder::OS_ORDER_READY_VIEW) {
-                    return $this->redirect(['viewphoto/update', 'id'=>$orderid]); //跳到看片
+                    return $this->redirect(['viewphoto/create', 'id'=>$orderid]); //跳到看片
                 } else {
                     return $this->render('operateorder',[
                         'infoData'=>$infoData

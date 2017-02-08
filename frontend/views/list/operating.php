@@ -33,7 +33,7 @@ frontend\assets\DatatableAsset::register($this);
                             <td><?=$val['orderid'] ?></td>
                             <td><?=Picorder::orderStatus($val['orderstatus']) ?></td>
                             <td><?=date('Y-m-d H:i:s', $val['time']) ?></td>
-                            <td><?=$val['orderstatus']==Picorder::OS_ORDER_RETOUCHING ? Html::a('修片', ['repairphoto/create', 'id'=>$val['orderid']]) : Html::a('看片', ['/viewphoto/create', 'id'=>$val['orderid']]) ?></td>
+                            <td><?=$val['orderstatus']==Picorder::OS_ORDER_RETOUCHING ? Html::a('修片', ['repairphoto/update', 'id'=>$val['orderid']]) : Html::a('看片', ['/viewphoto/update', 'id'=>$val['orderid']]) ?></td>
                         </tr>
                     <?php endforeach; ?>
                     </tbody>
