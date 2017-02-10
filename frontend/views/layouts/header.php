@@ -37,13 +37,13 @@ use yii\helpers\Html;
                                  alt="User Image"/>
 
                             <p>
-                                <?=\Yii::$app->user->identity->username; ?> - 管理员(会随用户变)
+                                <?=\Yii::$app->user->identity->username; ?>
                             </p>
                         </li>
                         <!-- Menu Footer-->
                         <li class="user-footer">
                             <div class="pull-left">
-                                <a href="#" class="btn btn-default btn-flat">个人信息</a>
+                                <!--<a href="#" class="btn btn-default btn-flat">个人信息</a>-->
                             </div>
                             <div class="pull-right">
                                 <?= Html::a(
