@@ -26,7 +26,8 @@ return [
         'allowActions' => [
             //这里是允许访问的action， *表示允许所有
             //controller/action
-            '*'
+            //'*'
+            'site/*',
         ]
     ],
     'components' => [
@@ -56,16 +57,16 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-        /*
-        'urlManager' => [
-            //用于表明 urlManager 是否启用URL美化功能
-            "enablePrettyUrl" => true,
-            // 是否在URL中显示入口脚本
-            "showScriptName" => false,
+        //开启url美化
+        /*'urlManager' => [
+            'enablePrettyUrl' => true,  //美化url==ture
+            'enableStrictParsing' => false,  //不启用严格解析
+            'showScriptName' => false,   //隐藏index.php
             'rules' => [
+                '<module:\w+>/<controller:\w+>/<id:\d+>' => '<module>/<controller>/view',
+                '<controller:\w+>/<id:\d+>' => '<controller>/view',
             ],
-        ],
-        */
+        ],*/
         'i18n' => [
             'translations' => [
                 '*' => [
